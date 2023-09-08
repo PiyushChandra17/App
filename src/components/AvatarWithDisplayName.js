@@ -112,7 +112,7 @@ function AvatarWithDisplayName(props) {
                             <MultipleAvatars
                                 icons={icons}
                                 size={props.size}
-                                secondAvatarStyle={[StyleUtils.getBackgroundAndBorderStyle(themeColors.borderFocus)]}
+                                secondAvatarStyle={[StyleUtils.getBackgroundAndBorderStyle(themeColors.iconReversed)]}
                             />
                         )}
                     </PressableWithoutFeedback>
