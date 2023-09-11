@@ -1,4 +1,4 @@
-import {View} from 'react-native';
+import {View, Platform} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import Mapbox, {MapState, MarkerView, setAccessToken} from '@rnmapbox/maps';
 import {forwardRef, memo, useCallback, useEffect, useImperativeHandle, useRef, useState} from 'react';
@@ -64,8 +64,10 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(({accessToken, style, ma
                 styleURL={styleURL}
                 onMapIdle={setMapIdle}
                 pitchEnabled={pitchEnabled}
+                attributionPosition={Platform.OS === "android" ? {bottom: 8, right: 8} : {bottom: 8, right: 8}}
                 // eslint-disable-next-line
                 {...responder.panHandlers}
+                
             >
                 <Mapbox.Camera
                     ref={cameraRef}
