@@ -134,7 +134,6 @@ function ContactMethodsPage(props) {
                     success
                     text={props.translate('contacts.newContactMethod')}
                     onPress={() => Navigation.navigate(ROUTES.SETTINGS_NEW_CONTACT_METHOD)}
-                    pressOnEnter
                 />
             </FixedFooter>
         </ScreenWrapper>
