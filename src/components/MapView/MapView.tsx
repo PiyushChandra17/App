@@ -66,6 +66,7 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(({accessToken, style, ma
                 pitchEnabled={pitchEnabled}
                 // eslint-disable-next-line
                 {...responder.panHandlers}
+
             >
                 <Mapbox.Camera
                     ref={cameraRef}
