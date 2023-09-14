@@ -23,6 +23,7 @@ import * as Transaction from '../../libs/actions/Transaction';
 import * as ValidationUtils from '../../libs/ValidationUtils';
 import ROUTES from '../../ROUTES';
 import transactionPropTypes from '../../components/transactionPropTypes';
+import { useFocusEffect } from '@react-navigation/native';
 
 const propTypes = {
     /** The transactionID of the IOU */
@@ -83,6 +84,17 @@ function WaypointEditor({transactionID, route: {params: {iouType = '', waypointI
     const allWaypoints = lodashGet(transaction, 'comment.waypoints', {});
     const waypointCount = _.keys(allWaypoints).length;
     const currentWaypoint = lodashGet(allWaypoints, `waypoint${waypointIndex}`, {});
+
+    const focusTimeoutRef = useRef(null);
+    useFocusEffect(useCallback(() => {
+        focusTimeoutRef.current = setTimeout(() => textInput.current && textInput.current.focus(), CONST.ANIMATED_TRANSITION);
+            return () => {
+                if (!focusTimeoutRef.current) {
+                    return;
+                }
+                clearTimeout(focusTimeoutRef.current);
+            };
+        }, []));
 
     const wayPointDescriptionKey = useMemo(() => {
         switch (parsedWaypointIndex) {
@@ -160,7 +172,6 @@ function WaypointEditor({transactionID, route: {params: {iouType = '', waypointI
     return (
         <ScreenWrapper
             includeSafeAreaPaddingBottom={false}
-            onEntryTransitionEnd={() => textInput.current && textInput.current.focus()}
             shouldEnableMaxHeight
         >
             <FullPageNotFoundView shouldShow={(Number.isNaN(parsedWaypointIndex) || parsedWaypointIndex < 0 || parsedWaypointIndex > waypointCount - 1) && isFocused}>
