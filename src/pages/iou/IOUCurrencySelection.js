@@ -18,6 +18,7 @@ import ROUTES from '../../ROUTES';
 import themeColors from '../../styles/themes/default';
 import * as Expensicons from '../../components/Icon/Expensicons';
 import {iouPropTypes, iouDefaultProps} from './propTypes';
+import { Keyboard } from 'react-native';
 
 const greenCheckmark = {src: Expensicons.Checkmark, color: themeColors.success};
 
@@ -84,8 +85,10 @@ function IOUCurrencySelection(props) {
             // To prevent any negative experience, we have made the decision to simply close the currency selection page.
             if (_.isEmpty(backTo) || props.navigation.getState().routes.length === 1) {
                 Navigation.goBack();
+                Keyboard.dismiss()
             } else {
                 Navigation.navigate(`${props.route.params.backTo}?currency=${option.currencyCode}`);
+                Keyboard.dismiss()
             }
         },
         [props.route, props.navigation],
