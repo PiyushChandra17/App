@@ -5,7 +5,7 @@
 
 import React, {forwardRef, useCallback, useEffect, useImperativeHandle, useState} from 'react';
 import {View} from 'react-native';
-import Map, {MapRef, Marker} from 'react-map-gl';
+import Map, {MapRef, Marker, ScaleControl} from 'react-map-gl';
 
 import responder from './responder';
 import utils from './utils';
@@ -15,6 +15,7 @@ import Direction from './Direction';
 import {MapViewHandle, MapViewProps} from './MapViewTypes';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
+
 
 const MapView = forwardRef<MapViewHandle, MapViewProps>(
     ({style, styleURL, waypoints, mapPadding, accessToken, directionCoordinates, initialState = {location: CONST.MAPBOX.DEFAULT_COORDINATE, zoom: CONST.MAPBOX.DEFAULT_ZOOM}}, ref) => {
@@ -87,6 +88,7 @@ const MapView = forwardRef<MapViewHandle, MapViewProps>(
                         );
                     })}
                     {directionCoordinates && <Direction coordinates={directionCoordinates} />}
+                    <ScaleControl maxWidth={100} unit="metric" position='top-left'/>
                 </Map>
             </View>
         );
