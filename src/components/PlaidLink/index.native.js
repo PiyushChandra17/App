@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {openLink, useDeepLinkRedirector, usePlaidEmitter} from 'react-native-plaid-link-sdk';
+import {openLink,dismissLink,useDeepLinkRedirector, usePlaidEmitter} from 'react-native-plaid-link-sdk';
 import Log from '../../libs/Log';
 import {plaidLinkPropTypes, plaidLinkDefaultProps} from './plaidLinkPropTypes';
 
@@ -23,8 +23,13 @@ function PlaidLink(props) {
             },
         });
 
+        return () => {
+            dismissLink()
+        }
+
         // We generally do not need to include the token as a dependency here as it is only provided once via props and should not change
         // eslint-disable-next-line react-hooks/exhaustive-deps
+        
     }, []);
     return null;
 }
