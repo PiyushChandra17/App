@@ -2788,7 +2788,7 @@ const styles = (theme) => ({
         opacity: 0.8,
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex: 10,
+        zIndex: 10
     },
 
     navigatorFullScreenLoading: {
