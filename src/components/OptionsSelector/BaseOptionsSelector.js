@@ -319,7 +319,7 @@ class BaseOptionsSelector extends Component {
                     this.textInput.focus();
                     this.relatedTarget = null;
                 }
-                if (this.textInput.isFocused()) {
+                if (this.textInput !== null && this.textInput.isFocused()) {
                     setSelection(this.textInput, 0, this.props.value.length);
                 }
             }
