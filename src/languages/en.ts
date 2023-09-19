@@ -586,6 +586,7 @@ export default {
         offline: 'Offline',
         syncing: 'Syncing',
         profileAvatar: 'Profile avatar',
+        profilePicture: 'Profile picture'
     },
     loungeAccessPage: {
         loungeAccess: 'Lounge access',

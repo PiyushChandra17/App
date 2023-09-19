@@ -127,7 +127,7 @@ function ProfilePage(props) {
                     onErrorClose={PersonalDetails.clearAvatarErrors}
                     previewSource={UserUtils.getFullSizeAvatar(avatarURL, accountID)}
                     originalFileName={currentUserDetails.originalFileName}
-                    headerTitle={props.translate('profilePage.profileAvatar')}
+                    headerTitle={props.translate('profilePage.profilePicture')}
                     style={[styles.mh5]}
                 />
                 <View style={[styles.mt4]}>
