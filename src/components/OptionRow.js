@@ -22,6 +22,7 @@ import CONST from '../CONST';
 import * as ReportUtils from '../libs/ReportUtils';
 import PressableWithFeedback from './Pressable/PressableWithFeedback';
 import * as OptionsListUtils from '../libs/OptionsListUtils';
+import cursor from '../styles/utilities/cursor';
 
 const propTypes = {
     /** Style for hovered state */
@@ -284,6 +285,7 @@ class OptionRow extends Component {
                                                     onPress={() => this.props.onSelectedStatePressed(this.props.option)}
                                                     accessibilityRole={CONST.ACCESSIBILITY_ROLE.CHECKBOX}
                                                     accessibilityLabel={CONST.ACCESSIBILITY_ROLE.CHECKBOX}
+                                                    disabled={this.state.isDisabled && cursor.cursorDisabled}
                                                 >
                                                     <SelectCircle isChecked={this.props.isSelected} />
                                                 </PressableWithFeedback>
