@@ -176,7 +176,7 @@ function TransactionPreviewContent({
 
     const previewTextViewGap = (isBillSplit || shouldShowMerchantOrDescription || shouldShowCategoryOrTag) && styles.gap2;
     const previewTextMargin = shouldShowIOUHeader && shouldShowMerchantOrDescription && !isBillSplit && !shouldShowCategoryOrTag && styles.mbn1;
-    const shouldWrapDisplayAmount = !(shouldShowMerchantOrDescription || isBillSplit);
+    const shouldWrapDisplayAmount = !(shouldShowMerchantOrDescription || isBillSplit || isScanning);
 
     const transactionContent = (
         <View style={[styles.border, styles.reportContainerBorderRadius, containerStyles]}>
