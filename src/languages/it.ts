@@ -6842,6 +6842,7 @@ Richiedi dettagli di spesa come ricevute e descrizioni, imposta limiti e valori 
             reimbursable: 'Rimborsabile',
             purchaseCurrency: 'Valuta di acquisto',
             groupBy: {
+                [CONST.SEARCH.GROUP_BY.TAG]: 'Etichetta',
                 [CONST.SEARCH.GROUP_BY.FROM]: 'Da',
                 [CONST.SEARCH.GROUP_BY.CARD]: 'Carta',
                 [CONST.SEARCH.GROUP_BY.WITHDRAWAL_ID]: 'ID prelievo',

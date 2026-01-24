@@ -262,6 +262,27 @@ const getExpenseReportHeaders = (profileIcon?: IconAsset): SearchColumnConfig[] 
 
 const getTransactionGroupHeaders = (groupBy: SearchGroupBy, icons: SearchHeaderIcons): SearchColumnConfig[] => {
     switch (groupBy) {
+        case CONST.SEARCH.GROUP_BY.TAG:
+            return [
+                {
+                    columnName: CONST.SEARCH.TABLE_COLUMNS.AVATAR,
+                    translationKey: undefined,
+                    icon: icons.Profile,
+                    isColumnSortable: false,
+                },
+                {
+                    columnName: CONST.SEARCH.TABLE_COLUMNS.GROUP_TAG,
+                    translationKey: 'search.filters.groupBy.tag',
+                },
+                {
+                    columnName: CONST.SEARCH.TABLE_COLUMNS.GROUP_EXPENSES,
+                    translationKey: 'common.expenses',
+                },
+                {
+                    columnName: CONST.SEARCH.TABLE_COLUMNS.GROUP_TOTAL,
+                    translationKey: 'common.total',
+                },
+            ];
         case CONST.SEARCH.GROUP_BY.FROM:
             return [
                 {

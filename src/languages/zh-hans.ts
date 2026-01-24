@@ -6677,6 +6677,7 @@ ${reportName}
             reimbursable: '可报销',
             purchaseCurrency: '购买货币',
             groupBy: {
+                [CONST.SEARCH.GROUP_BY.TAG]: '标签',
                 [CONST.SEARCH.GROUP_BY.FROM]: '从',
                 [CONST.SEARCH.GROUP_BY.CARD]: '卡片',
                 [CONST.SEARCH.GROUP_BY.WITHDRAWAL_ID]: '提款 ID',

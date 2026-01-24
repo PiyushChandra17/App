@@ -6789,6 +6789,7 @@ const CONST = {
             DESC: 'desc',
         },
         GROUP_BY: {
+            TAG: 'tag',
             FROM: 'from',
             CARD: 'card',
             WITHDRAWAL_ID: 'withdrawal-id',
@@ -6850,6 +6851,11 @@ const CONST = {
         },
         get GROUP_CUSTOM_COLUMNS() {
             return {
+                TAG: {
+                    TAG: this.TABLE_COLUMNS.GROUP_TAG,
+                    EXPENSES: this.TABLE_COLUMNS.GROUP_EXPENSES,
+                    TOTAL: this.TABLE_COLUMNS.GROUP_TOTAL,
+                },
                 FROM: {
                     FROM: this.TABLE_COLUMNS.GROUP_FROM,
                     EXPENSES: this.TABLE_COLUMNS.GROUP_EXPENSES,
@@ -6900,6 +6906,7 @@ const CONST = {
         },
         get GROUP_DEFAULT_COLUMNS() {
             return {
+                TAG: [this.TABLE_COLUMNS.GROUP_TAG, this.TABLE_COLUMNS.GROUP_EXPENSES, this.TABLE_COLUMNS.GROUP_TOTAL],
                 FROM: [this.TABLE_COLUMNS.GROUP_FROM, this.TABLE_COLUMNS.GROUP_EXPENSES, this.TABLE_COLUMNS.GROUP_TOTAL],
                 CARD: [this.TABLE_COLUMNS.GROUP_CARD, this.TABLE_COLUMNS.GROUP_FEED, this.TABLE_COLUMNS.GROUP_EXPENSES, this.TABLE_COLUMNS.GROUP_TOTAL],
                 WITHDRAWAL_ID: [
@@ -6999,6 +7006,7 @@ const CONST = {
             GROUP_FROM: 'groupFrom',
             GROUP_EXPENSES: 'groupExpenses',
             GROUP_TOTAL: 'groupTotal',
+            GROUP_TAG: 'groupTag',
             GROUP_CARD: 'groupCard',
             GROUP_FEED: 'groupFeed',
             GROUP_BANK_ACCOUNT: 'groupBankAccount',
@@ -7176,6 +7184,7 @@ const CONST = {
                 [this.TABLE_COLUMNS.EXCHANGE_RATE]: 'exchange-rate',
                 [this.TABLE_COLUMNS.REIMBURSABLE_TOTAL]: 'reimbursable-total',
                 [this.TABLE_COLUMNS.NON_REIMBURSABLE_TOTAL]: 'non-reimbursable-total',
+                [this.TABLE_COLUMNS.GROUP_TAG]: 'group-tag',
                 [this.TABLE_COLUMNS.GROUP_FROM]: 'group-from',
                 [this.TABLE_COLUMNS.GROUP_EXPENSES]: 'group-expenses',
                 [this.TABLE_COLUMNS.GROUP_TOTAL]: 'group-total',

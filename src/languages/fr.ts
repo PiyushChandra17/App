@@ -6867,6 +6867,7 @@ Exigez des informations de dépense comme les reçus et les descriptions, défin
             reimbursable: 'Remboursable',
             purchaseCurrency: 'Devise d’achat',
             groupBy: {
+                [CONST.SEARCH.GROUP_BY.TAG]: 'Étiquette',
                 [CONST.SEARCH.GROUP_BY.FROM]: 'De',
                 [CONST.SEARCH.GROUP_BY.CARD]: 'Carte',
                 [CONST.SEARCH.GROUP_BY.WITHDRAWAL_ID]: 'ID de retrait',

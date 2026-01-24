@@ -6831,6 +6831,7 @@ Vraag verplichte uitgavedetails zoals bonnetjes en beschrijvingen, stel limieten
             reimbursable: 'Vergoedbaar',
             purchaseCurrency: 'Aankoopvaluta',
             groupBy: {
+                [CONST.SEARCH.GROUP_BY.TAG]: 'Label',
                 [CONST.SEARCH.GROUP_BY.FROM]: 'Van',
                 [CONST.SEARCH.GROUP_BY.CARD]: 'Kaart',
                 [CONST.SEARCH.GROUP_BY.WITHDRAWAL_ID]: 'Opname-ID',

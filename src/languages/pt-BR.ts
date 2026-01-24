@@ -6818,6 +6818,7 @@ Exija detalhes de despesas como recibos e descrições, defina limites e padrõe
             reimbursable: 'Reembolsável',
             purchaseCurrency: 'Moeda de compra',
             groupBy: {
+                [CONST.SEARCH.GROUP_BY.TAG]: 'Etiqueta',
                 [CONST.SEARCH.GROUP_BY.FROM]: 'De',
                 [CONST.SEARCH.GROUP_BY.CARD]: 'Cartão',
                 [CONST.SEARCH.GROUP_BY.WITHDRAWAL_ID]: 'ID de saque',

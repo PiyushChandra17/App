@@ -6471,6 +6471,7 @@ ${amount} para ${merchant} - ${date}`,
             reimbursable: 'Reembolsable',
             purchaseCurrency: 'Moneda de compra',
             groupBy: {
+                [CONST.SEARCH.GROUP_BY.TAG]: 'Etiqueta',
                 [CONST.SEARCH.GROUP_BY.FROM]: 'De',
                 [CONST.SEARCH.GROUP_BY.CARD]: 'Tarjeta',
                 [CONST.SEARCH.GROUP_BY.WITHDRAWAL_ID]: 'ID de retiro',
