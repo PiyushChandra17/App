@@ -54,6 +54,7 @@ import type {
     SearchCardGroup,
     SearchDataTypes,
     SearchMemberGroup,
+    SearchTagGroup,
     SearchTask,
     SearchTransactionAction,
     SearchWithdrawalIDGroup,
@@ -142,6 +143,7 @@ type TaskSorting = ColumnSortMapping<TaskListItemType>;
 type ExpenseReportSorting = ColumnSortMapping<ExpenseReportListItemType>;
 
 // Transaction Group sorting
+type TransactionTagGroupSorting = ColumnSortMapping<TransactionTagGroupListItemType>;
 type TransactionMemberGroupSorting = ColumnSortMapping<TransactionMemberGroupListItemType>;
 type TransactionCardGroupSorting = ColumnSortMapping<TransactionCardGroupListItemType>;
 type TransactionWithdrawalIDGroupSorting = ColumnSortMapping<TransactionWithdrawalIDGroupListItemType>;
@@ -208,6 +210,13 @@ const expenseReportColumnNamesToSortingProperty: ExpenseReportSorting = {
 const transactionMemberGroupColumnNamesToSortingProperty: TransactionMemberGroupSorting = {
     [CONST.SEARCH.TABLE_COLUMNS.AVATAR]: null,
     [CONST.SEARCH.TABLE_COLUMNS.GROUP_FROM]: 'formattedFrom' as const,
+    [CONST.SEARCH.TABLE_COLUMNS.GROUP_EXPENSES]: 'count' as const,
+    [CONST.SEARCH.TABLE_COLUMNS.GROUP_TOTAL]: 'total' as const,
+};
+
+const transactionTagGroupColumnNamesToSortingProperty: TransactionTagGroupSorting = {
+    [CONST.SEARCH.TABLE_COLUMNS.AVATAR]: null,
+    [CONST.SEARCH.TABLE_COLUMNS.GROUP_TAG]: 'formattedTag' as const,
     [CONST.SEARCH.TABLE_COLUMNS.GROUP_EXPENSES]: 'count' as const,
     [CONST.SEARCH.TABLE_COLUMNS.GROUP_TOTAL]: 'total' as const,
 };
@@ -1964,6 +1973,42 @@ function getMemberSections(
 
 /**
  * @private
+ * Organizes data into List Sections grouped by tag for display, for the TransactionGroupListItemType of Search Results.
+ *
+ * Do not use directly, use only via `getSections()` facade.
+ */
+function getTagSections(data: OnyxTypes.SearchResults['data'], queryJSON: SearchQueryJSON | undefined): [TransactionTagGroupListItemType[], number] {
+    const tagSections: Record<string, TransactionTagGroupListItemType> = {};
+
+    for (const key in data) {
+        if (isGroupEntry(key)) {
+            const tagGroup = data[key] as SearchTagGroup;
+            const personalDetails = data.personalDetailsList?.[tagGroup.Tag] ?? emptyPersonalDetails;
+            let transactionsQueryJSON: SearchQueryJSON | undefined;
+            if (queryJSON && tagGroup.Tag) {
+                const newFlatFilters = queryJSON.flatFilters.filter((filter) => filter.key !== CONST.SEARCH.SYNTAX_FILTER_KEYS.TAG);
+                newFlatFilters.push({key: CONST.SEARCH.SYNTAX_FILTER_KEYS.TAG, filters: [{operator: CONST.SEARCH.SYNTAX_OPERATORS.EQUAL_TO, value: tagGroup.Tag}]});
+                const newQueryJSON: SearchQueryJSON = {...queryJSON, groupBy: undefined, flatFilters: newFlatFilters};
+                const newQuery = buildSearchQueryString(newQueryJSON);
+                transactionsQueryJSON = buildSearchQueryJSON(newQuery);
+            }
+
+            tagSections[key] = {
+                groupedBy: CONST.SEARCH.GROUP_BY.TAG,
+                transactions: [],
+                transactionsQueryJSON,
+                ...personalDetails,
+                ...tagGroup,
+            };
+        }
+    }
+
+    const tagSectionsValues = Object.values(tagSections);
+    return [tagSectionsValues, tagSectionsValues.length];
+}
+
+/**
+ * @private
  * Organizes data into List Sections grouped by card for display, for the TransactionGroupListItemType of Search Results.
  *
  * Do not use directly, use only via `getSections()` facade.
@@ -2133,6 +2178,8 @@ function getSections({
         switch (groupBy) {
             case CONST.SEARCH.GROUP_BY.FROM:
                 return getMemberSections(data, queryJSON, formatPhoneNumber);
+            case CONST.SEARCH.GROUP_BY.TAG:
+                return getTagSections(data, queryJSON);
             case CONST.SEARCH.GROUP_BY.CARD:
                 return getCardSections(data, queryJSON, cardFeeds);
             case CONST.SEARCH.GROUP_BY.WITHDRAWAL_ID:
@@ -2170,6 +2217,8 @@ function getSortedSections(
         // Disabling the default-case lint rule here is actually safer as this forces us to make the switch cases exhaustive
         // eslint-disable-next-line default-case
         switch (groupBy) {
+            case CONST.SEARCH.GROUP_BY.TAG:
+                return getSortedTagData(data as TransactionTagGroupListItemType[], localeCompare, sortBy, sortOrder);
             case CONST.SEARCH.GROUP_BY.FROM:
                 return getSortedMemberData(data as TransactionMemberGroupListItemType[], localeCompare, sortBy, sortOrder);
             case CONST.SEARCH.GROUP_BY.CARD:
@@ -2507,6 +2556,14 @@ function getSortedData<T extends TransactionGroupListItemType>(
  */
 function getSortedMemberData(data: TransactionMemberGroupListItemType[], localeCompare: LocaleContextProps['localeCompare'], sortBy?: SearchColumnType, sortOrder?: SortOrder) {
     return getSortedData(data, localeCompare, transactionMemberGroupColumnNamesToSortingProperty, (a, b) => localeCompare(a.formattedFrom ?? '', b.formattedFrom ?? ''), sortBy, sortOrder);
+}
+
+/**
+ * @private
+ * Sorts member sections based on a specified column and sort order.
+ */
+function getSortedTagData(data: TransactionTagGroupListItemType[], localeCompare: LocaleContextProps['localeCompare'], sortBy?: SearchColumnType, sortOrder?: SortOrder) {
+    return getSortedData(data, localeCompare, transactionTagGroupColumnNamesToSortingProperty, (a, b) => localeCompare(a.formattedTag ?? '', b.formattedTag ?? ''), sortBy, sortOrder);
 }
 
 /**

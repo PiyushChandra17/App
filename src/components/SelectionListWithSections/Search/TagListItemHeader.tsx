@@ -10,7 +10,6 @@ import useLocalize from '@hooks/useLocalize';
 import useResponsiveLayout from '@hooks/useResponsiveLayout';
 import useStyleUtils from '@hooks/useStyleUtils';
 import useThemeStyles from '@hooks/useThemeStyles';
-import {getDisplayNameOrDefault} from '@libs/PersonalDetailsUtils';
 import CONST from '@src/CONST';
 import ExpandCollapseArrowButton from './ExpandCollapseArrowButton';
 import TextCell from './TextCell';
@@ -59,13 +58,7 @@ function MemberListItemHeader<TItem extends ListItem>({
     const styles = useThemeStyles();
     const StyleUtils = useStyleUtils();
     const {isLargeScreenWidth} = useResponsiveLayout();
-    const {translate, formatPhoneNumber} = useLocalize();
-    const formattedDisplayName = formatPhoneNumber(getDisplayNameOrDefault(tagItem));
-    const formattedLogin = formatPhoneNumber(tagItem.login ?? '');
-
-    console.log(tagItem);
-
-    console.log('Hi');
+    const {translate} = useLocalize();
 
     const columnComponents = {
         [CONST.SEARCH.TABLE_COLUMNS.GROUP_TAG]: (
@@ -123,19 +116,15 @@ function MemberListItemHeader<TItem extends ListItem>({
                                     <Avatar
                                         source={tagItem.avatar}
                                         type={CONST.ICON_TYPE_AVATAR}
-                                        name={formattedDisplayName}
+                                        name={tagItem.Tag}
                                         avatarID={tagItem.accountID}
                                     />
                                 </View>
                             </UserDetailsTooltip>
                             <View style={[styles.gap1, styles.flexShrink1]}>
                                 <TextWithTooltip
-                                    text={formattedDisplayName}
+                                    text={tagItem.Tag}
                                     style={[styles.optionDisplayName, styles.sidebarLinkTextBold, styles.pre, styles.fontWeightNormal]}
-                                />
-                                <TextWithTooltip
-                                    text={formattedLogin || formattedDisplayName}
-                                    style={[styles.textLabelSupporting, styles.lh16, styles.pre]}
                                 />
                             </View>
                         </View>
@@ -148,7 +137,7 @@ function MemberListItemHeader<TItem extends ListItem>({
                                         <Avatar
                                             source={tagItem.avatar}
                                             type={CONST.ICON_TYPE_AVATAR}
-                                            name={formattedDisplayName}
+                                            name={tagItem.Tag}
                                             avatarID={tagItem.accountID}
                                         />
                                     </View>
