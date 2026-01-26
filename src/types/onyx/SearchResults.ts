@@ -118,6 +118,24 @@ type SearchMemberGroup = {
     currency: string;
 };
 
+/** Model of tag grouped search result */
+type SearchTagGroup = {
+    /** Tag Name */
+    Tag: string;
+
+    /** Account ID */
+    accountID: number;
+
+    /** Number of transactions */
+    count: number;
+
+    /** Total value of transactions */
+    total: number;
+
+    /** Currency of total value */
+    currency: string;
+};
+
 /** Model of card grouped search result */
 type SearchCardGroup = {
     /** Cardholder account ID */
@@ -186,7 +204,7 @@ type SearchResults = {
         PrefixedRecord<typeof ONYXKEYS.COLLECTION.POLICY, Policy> &
         PrefixedRecord<typeof ONYXKEYS.COLLECTION.TRANSACTION_VIOLATIONS, TransactionViolation[]> &
         PrefixedRecord<typeof ONYXKEYS.COLLECTION.REPORT_NAME_VALUE_PAIRS, ReportNameValuePairs> &
-        PrefixedRecord<typeof CONST.SEARCH.GROUP_PREFIX, SearchMemberGroup | SearchCardGroup | SearchWithdrawalIDGroup>;
+        PrefixedRecord<typeof CONST.SEARCH.GROUP_PREFIX, SearchMemberGroup | SearchTagGroup | SearchCardGroup | SearchWithdrawalIDGroup>;
 
     /** Whether search data is being fetched from server */
     isLoading?: boolean;
@@ -197,4 +215,15 @@ type SearchResults = {
 
 export default SearchResults;
 
-export type {ListItemType, ListItemDataType, SearchTask, SearchTransactionAction, SearchDataTypes, SearchResultsInfo, SearchMemberGroup, SearchCardGroup, SearchWithdrawalIDGroup};
+export type {
+    ListItemType,
+    ListItemDataType,
+    SearchTask,
+    SearchTransactionAction,
+    SearchDataTypes,
+    SearchResultsInfo,
+    SearchMemberGroup,
+    SearchTagGroup,
+    SearchCardGroup,
+    SearchWithdrawalIDGroup,
+};
