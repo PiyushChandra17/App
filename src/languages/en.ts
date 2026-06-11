@@ -9374,6 +9374,7 @@ const translations = {
             summary: (subscriptionType: string, subscriptionSize: string, expensifyCode: string, autoRenew: string, autoIncrease: string) =>
                 `Subscription type: ${subscriptionType}, Subscription size: ${subscriptionSize}${expensifyCode ? `, Expensify code: ${expensifyCode}` : ''}, Auto renew: ${autoRenew}, Auto increase annual seats: ${autoIncrease}`,
             none: 'none',
+            editSubscriptions: 'Edit Subscriptions',
             on: 'on',
             off: 'off',
             annual: 'Annual',

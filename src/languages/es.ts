@@ -9492,6 +9492,7 @@ ${amount} para ${merchant} - ${date}`,
             title: 'Configuración de suscripción',
             summary: (subscriptionType, subscriptionSize, expensifyCode, autoRenew, autoIncrease) =>
                 `Tipo de suscripción: ${subscriptionType}, Tamaño de suscripción: ${subscriptionSize}${expensifyCode ? `, Código Expensify: ${expensifyCode}` : ''}, Renovación automática: ${autoRenew}, Aumento automático de asientos anuales: ${autoIncrease}`,
+            editSubscriptions: 'Editar suscripción',
             none: 'ninguno',
             on: 'activado',
             off: 'desactivado',
