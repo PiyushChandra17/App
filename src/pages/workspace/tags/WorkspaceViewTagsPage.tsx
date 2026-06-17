@@ -82,6 +82,7 @@ function WorkspaceViewTagsPage({route}: WorkspaceViewTagsProps) {
     const currentTagListName = useMemo(() => getTagListName(policyTags, orderWeight), [policyTags, orderWeight]);
     const hasDependentTags = useMemo(() => hasDependentTagsPolicyUtils(policy, policyTags), [policy, policyTags]);
     const isMultiLevelTags = isMultiLevelTagsPolicyUtils(policyTags);
+
     const currentPolicyTag = policyTags?.[currentTagListName];
     const {canWrite: canWriteTags, showReadOnlyModal, withReadOnlyFallback} = usePolicyFeatureWriteAccess(policy, CONST.POLICY.POLICY_FEATURE.TAGS);
     const isQuickSettingsFlow = route.name === SCREENS.SETTINGS_TAGS.DYNAMIC_SETTINGS_TAG_LIST_VIEW;
@@ -400,7 +401,7 @@ function WorkspaceViewTagsPage({route}: WorkspaceViewTagsProps) {
                     {!shouldDisplayButtonsInSeparateLine && getHeaderButtons()}
                 </HeaderWithBackButton>
                 {shouldDisplayButtonsInSeparateLine && !!getHeaderButtons() && <View style={[styles.pl5, styles.pr5]}>{getHeaderButtons()}</View>}
-                {!hasDependentTags && (
+                {(!hasDependentTags || isMultiLevelTags) && (
                     <View style={[styles.pv4, styles.ph5]}>
                         <ToggleSettingOptionRow
                             title={translate('common.required')}
