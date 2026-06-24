@@ -704,7 +704,7 @@ function MoneyRequestReportTransactionList({
             key={transaction.transactionID}
             transaction={transaction}
             violations={violationsByTransactionID.get(transaction.transactionID) ?? EMPTY_VIOLATIONS}
-            shouldBeHighlighted={highlightedTransactionIDs.has(transaction.transactionID)}
+            shouldBeHighlighted={true}
             columns={columnsToShow}
             report={report}
             policy={policy}
