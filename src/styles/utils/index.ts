@@ -72,17 +72,47 @@ type GetReportTableColumnStylesParams = {
     isActionColumnWide?: boolean;
 };
 
-const workspaceColorOptions: SVGAvatarColorStyle[] = LETTER_AVATAR_COLOR_OPTIONS.map(({backgroundColor, fillColor}) => ({backgroundColor, fill: fillColor}));
+const workspaceColorOptions: SVGAvatarColorStyle[] = LETTER_AVATAR_COLOR_OPTIONS.map(({backgroundColor, fillColor}) => ({
+    backgroundColor,
+    fill: fillColor,
+}));
 
-const DEFAULT_WORKSPACE_COLOR = {backgroundColor: colors.blue400, fill: colors.blue700};
+const DEFAULT_WORKSPACE_COLOR = {
+    backgroundColor: colors.blue400,
+    fill: colors.blue700,
+};
 
 const eReceiptColorStyles: Partial<Record<EReceiptColorName, EreceiptColorStyle>> = {
-    [CONST.ERECEIPT_COLORS.YELLOW]: {backgroundColor: colors.yellow800, color: colors.yellow400, titleColor: colors.yellow500},
-    [CONST.ERECEIPT_COLORS.ICE]: {backgroundColor: colors.ice800, color: colors.ice400, titleColor: colors.ice500},
-    [CONST.ERECEIPT_COLORS.BLUE]: {backgroundColor: colors.blue800, color: colors.blue400, titleColor: colors.blue500},
-    [CONST.ERECEIPT_COLORS.GREEN]: {backgroundColor: colors.green800, color: colors.green400, titleColor: colors.green500},
-    [CONST.ERECEIPT_COLORS.TANGERINE]: {backgroundColor: colors.tangerine800, color: colors.tangerine400, titleColor: colors.tangerine500},
-    [CONST.ERECEIPT_COLORS.PINK]: {backgroundColor: colors.pink800, color: colors.pink400, titleColor: colors.pink500},
+    [CONST.ERECEIPT_COLORS.YELLOW]: {
+        backgroundColor: colors.yellow800,
+        color: colors.yellow400,
+        titleColor: colors.yellow500,
+    },
+    [CONST.ERECEIPT_COLORS.ICE]: {
+        backgroundColor: colors.ice800,
+        color: colors.ice400,
+        titleColor: colors.ice500,
+    },
+    [CONST.ERECEIPT_COLORS.BLUE]: {
+        backgroundColor: colors.blue800,
+        color: colors.blue400,
+        titleColor: colors.blue500,
+    },
+    [CONST.ERECEIPT_COLORS.GREEN]: {
+        backgroundColor: colors.green800,
+        color: colors.green400,
+        titleColor: colors.green500,
+    },
+    [CONST.ERECEIPT_COLORS.TANGERINE]: {
+        backgroundColor: colors.tangerine800,
+        color: colors.tangerine400,
+        titleColor: colors.tangerine500,
+    },
+    [CONST.ERECEIPT_COLORS.PINK]: {
+        backgroundColor: colors.pink800,
+        color: colors.pink400,
+        titleColor: colors.pink500,
+    },
 };
 
 const eReceiptColors: EReceiptColorName[] = [
@@ -400,7 +430,9 @@ function getPlatformSafeAreaPadding(insets?: EdgeInsets, insetsPercentageProp?: 
  * Takes safe area insets and returns margin to use for a View
  */
 function getSafeAreaMargins(insets?: EdgeInsets): ViewStyle {
-    return {marginBottom: (insets?.bottom ?? 0) * variables.iosSafeAreaInsetsPercentage};
+    return {
+        marginBottom: (insets?.bottom ?? 0) * variables.iosSafeAreaInsetsPercentage,
+    };
 }
 
 type GetZoomSizingStyleParams = {
@@ -573,13 +605,25 @@ function getWidthAndHeightStyle(width: number, height?: number): Pick<ViewStyle,
 function getIconWidthAndHeightStyle(size: ValueOf<typeof CONST.ICON_SIZE> | undefined, width: number, height: number, isButtonIcon: boolean): Pick<ImageSVGProps, 'width' | 'height'> {
     switch (size) {
         case CONST.ICON_SIZE.EXTRA_SMALL:
-            return {width: isButtonIcon ? variables.iconSizeXXSmall : variables.iconSizeExtraSmall, height: isButtonIcon ? variables.iconSizeXXSmall : variables.iconSizeExtraSmall};
+            return {
+                width: isButtonIcon ? variables.iconSizeXXSmall : variables.iconSizeExtraSmall,
+                height: isButtonIcon ? variables.iconSizeXXSmall : variables.iconSizeExtraSmall,
+            };
         case CONST.ICON_SIZE.SMALL:
-            return {width: isButtonIcon ? variables.iconSizeExtraSmall : variables.iconSizeSmall, height: isButtonIcon ? variables.iconSizeExtraSmall : variables.iconSizeSmall};
+            return {
+                width: isButtonIcon ? variables.iconSizeExtraSmall : variables.iconSizeSmall,
+                height: isButtonIcon ? variables.iconSizeExtraSmall : variables.iconSizeSmall,
+            };
         case CONST.ICON_SIZE.MEDIUM:
-            return {width: isButtonIcon ? variables.iconSizeSmall : variables.iconSizeNormal, height: isButtonIcon ? variables.iconSizeSmall : variables.iconSizeNormal};
+            return {
+                width: isButtonIcon ? variables.iconSizeSmall : variables.iconSizeNormal,
+                height: isButtonIcon ? variables.iconSizeSmall : variables.iconSizeNormal,
+            };
         case CONST.ICON_SIZE.LARGE:
-            return {width: isButtonIcon ? variables.iconSizeNormal : variables.iconSizeLarge, height: isButtonIcon ? variables.iconSizeNormal : variables.iconSizeLarge};
+            return {
+                width: isButtonIcon ? variables.iconSizeNormal : variables.iconSizeLarge,
+                height: isButtonIcon ? variables.iconSizeNormal : variables.iconSizeLarge,
+            };
         default: {
             return {width, height};
         }
@@ -718,7 +762,9 @@ function getEmojiPickerStyle(isSmallScreenWidth: boolean): ViewStyle {
 
 function getPaymentMethodMenuWidth(isSmallScreenWidth: boolean): ViewStyle {
     const margin = 20;
-    return {width: !isSmallScreenWidth ? variables.sideBarWidth - margin * 2 : undefined};
+    return {
+        width: !isSmallScreenWidth ? variables.sideBarWidth - margin * 2 : undefined,
+    };
 }
 
 /**
@@ -1523,7 +1569,11 @@ const createStyleUtils = (theme: ThemeColors, styles: ThemeStyles) => ({
     getMarkdownMaxHeight: (maxAutoGrowHeight: number | undefined): TextStyle => {
         // maxHeight is not of the input only but the of the whole input container
         // which also includes the top padding and bottom border
-        return maxAutoGrowHeight ? {maxHeight: maxAutoGrowHeight - styles.textInputMultilineContainer.paddingTop - styles.textInputContainer.borderWidth * 2} : {};
+        return maxAutoGrowHeight
+            ? {
+                  maxHeight: maxAutoGrowHeight - styles.textInputMultilineContainer.paddingTop - styles.textInputContainer.borderWidth * 2,
+              }
+            : {};
     },
 
     /**
@@ -1638,7 +1688,9 @@ const createStyleUtils = (theme: ThemeColors, styles: ThemeStyles) => ({
     /**
      * Select the correct color for text.
      */
-    getColoredBackgroundStyle: (isColored: boolean): StyleProp<TextStyle> => ({backgroundColor: isColored ? theme.mentionBG : undefined}),
+    getColoredBackgroundStyle: (isColored: boolean): StyleProp<TextStyle> => ({
+        backgroundColor: isColored ? theme.mentionBG : undefined,
+    }),
 
     /**
      * Returns link styles based on whether the link is disabled or not
@@ -1730,7 +1782,9 @@ const createStyleUtils = (theme: ThemeColors, styles: ThemeStyles) => ({
     /**
      * Return the height of magic code input container
      */
-    getHeightOfMagicCodeInput: (): ViewStyle => ({height: styles.magicCodeInputContainer.height - styles.textInputContainer.borderWidth * 2}),
+    getHeightOfMagicCodeInput: (): ViewStyle => ({
+        height: styles.magicCodeInputContainer.height - styles.textInputContainer.borderWidth * 2,
+    }),
 
     /**
      * Generate fill color of an icon based on its state.
@@ -1856,8 +1910,12 @@ const createStyleUtils = (theme: ThemeColors, styles: ThemeStyles) => ({
         borderBottomWidth: isLastItem ? 0 : 1,
         borderColor: isSelected ? theme.buttonHoveredBG : theme.border,
         ...(isLastItem ? styles.tableBottomRadius : {}),
-        ...(padding?.vertical !== undefined && {paddingVertical: padding.vertical}),
-        ...(padding?.horizontal !== undefined && {paddingHorizontal: padding.horizontal}),
+        ...(padding?.vertical !== undefined && {
+            paddingVertical: padding.vertical,
+        }),
+        ...(padding?.horizontal !== undefined && {
+            paddingHorizontal: padding.horizontal,
+        }),
     }),
 
     getSelectedBorderBottomStyle: (isSelected?: boolean): ViewStyle => ({
@@ -1884,45 +1942,72 @@ const createStyleUtils = (theme: ThemeColors, styles: ThemeStyles) => ({
         let columnWidth;
         switch (columnName) {
             case CONST.SEARCH.TABLE_COLUMNS.COMMENTS:
-                columnWidth = {...getWidthStyle(variables.w36), ...styles.alignItemsCenter};
+                columnWidth = {
+                    ...getWidthStyle(variables.w36),
+                    ...styles.alignItemsCenter,
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.RECEIPT:
-                columnWidth = {...getWidthStyle(variables.w28), ...styles.alignItemsCenter};
+                columnWidth = {
+                    ...getWidthStyle(variables.w28),
+                    ...styles.alignItemsCenter,
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.AVATAR:
-                columnWidth = {...getWidthStyle(variables.w28), ...styles.alignItemsCenter};
+                columnWidth = {
+                    ...getWidthStyle(variables.w28),
+                    ...styles.alignItemsCenter,
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.STATUS:
-                columnWidth = {...getWidthStyle(variables.w80), ...styles.alignItemsCenter};
+                columnWidth = {
+                    ...getWidthStyle(variables.w80),
+                    ...styles.alignItemsCenter,
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.PAID_STATUS:
                 columnWidth = {...getWidthStyle(variables.w130)};
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.GROUP_WITHDRAWAL_STATUS:
-                columnWidth = {...getWidthStyle(variables.w130), ...styles.alignItemsCenter};
+                columnWidth = {
+                    ...getWidthStyle(variables.w130),
+                    ...styles.alignItemsCenter,
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.SUBMITTED:
-                columnWidth = {...getWidthStyle(isSubmittedColumnWide ? variables.w102 : variables.w62)};
+                columnWidth = {
+                    ...getWidthStyle(isSubmittedColumnWide ? variables.w102 : variables.w62),
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.APPROVED:
-                columnWidth = {...getWidthStyle(isApprovedColumnWide ? variables.w102 : variables.w62)};
+                columnWidth = {
+                    ...getWidthStyle(isApprovedColumnWide ? variables.w102 : variables.w62),
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.FIRST_APPROVED:
                 // Fixed width: wide enough for both the long "First approved" header and a past-year date, so no year-based widening is needed.
                 columnWidth = {...getWidthStyle(variables.w102)};
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.POSTED:
-                columnWidth = {...getWidthStyle(isPostedColumnWide ? variables.w102 : variables.w62)};
+                columnWidth = {
+                    ...getWidthStyle(isPostedColumnWide ? variables.w102 : variables.w62),
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.EXPORTED:
-                columnWidth = {...getWidthStyle(isExportedColumnWide ? variables.w102 : variables.w62)};
+                columnWidth = {
+                    ...getWidthStyle(isExportedColumnWide ? variables.w102 : variables.w62),
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.DATE:
-                columnWidth = {...getWidthStyle(isDateColumnWide ? variables.w102 : variables.w62)};
+                columnWidth = {
+                    ...getWidthStyle(isDateColumnWide ? variables.w102 : variables.w62),
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.WITHDRAWN:
             case CONST.SEARCH.TABLE_COLUMNS.GROUP_WITHDRAWN:
-                columnWidth = {...getWidthStyle(isWithdrawnColumnWide ? variables.w92 : variables.w72)};
+                columnWidth = {
+                    ...getWidthStyle(isWithdrawnColumnWide ? variables.w92 : variables.w72),
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.CATEGORY:
             case CONST.SEARCH.TABLE_COLUMNS.GROUP_CATEGORY:
@@ -1935,7 +2020,10 @@ const createStyleUtils = (theme: ThemeColors, styles: ThemeStyles) => ({
                 columnWidth = {...getWidthStyle(variables.w36), ...styles.flex1};
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.TAX_AMOUNT:
-                columnWidth = {...getWidthStyle(isTaxAmountColumnWide ? variables.w130 : variables.w96), ...styles.alignItemsEnd};
+                columnWidth = {
+                    ...getWidthStyle(isTaxAmountColumnWide ? variables.w130 : variables.w96),
+                    ...styles.alignItemsEnd,
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.EXPENSES:
             case CONST.SEARCH.TABLE_COLUMNS.GROUP_EXPENSES:
@@ -1944,14 +2032,27 @@ const createStyleUtils = (theme: ThemeColors, styles: ThemeStyles) => ({
             case CONST.SEARCH.TABLE_COLUMNS.REIMBURSABLE_TOTAL:
             case CONST.SEARCH.TABLE_COLUMNS.NON_REIMBURSABLE_TOTAL:
             case CONST.SEARCH.TABLE_COLUMNS.ORIGINAL_AMOUNT:
+                columnWidth = {
+                    ...getWidthStyle(isAmountColumnWide ? variables.w130 : variables.w96),
+                    ...(!shouldRemoveTotalColumnFlex && styles.flex1),
+                    ...styles.alignItemsStart,
+                };
+                break;
             case CONST.SEARCH.TABLE_COLUMNS.TOTAL_AMOUNT:
             case CONST.SEARCH.TABLE_COLUMNS.GROUP_TOTAL:
             case CONST.SEARCH.TABLE_COLUMNS.TOTAL_PER_ATTENDEE:
             case CONST.SEARCH.TABLE_COLUMNS.TOTAL:
-                columnWidth = {...getWidthStyle(isAmountColumnWide ? variables.w130 : variables.w96), ...(!shouldRemoveTotalColumnFlex && styles.flex1), ...styles.alignItemsEnd};
+                columnWidth = {
+                    ...getWidthStyle(isAmountColumnWide ? variables.w130 : variables.w96),
+                    ...(!shouldRemoveTotalColumnFlex && styles.flex1),
+                    ...styles.alignItemsEnd,
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.TYPE:
-                columnWidth = {...getWidthStyle(variables.w16), ...styles.alignItemsCenter};
+                columnWidth = {
+                    ...getWidthStyle(variables.w16),
+                    ...styles.alignItemsCenter,
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.REIMBURSABLE:
             case CONST.SEARCH.TABLE_COLUMNS.BILLABLE:
@@ -1969,10 +2070,16 @@ const createStyleUtils = (theme: ThemeColors, styles: ThemeStyles) => ({
                 columnWidth = {...getWidthStyle(variables.w92), ...styles.flex1};
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.ACTION:
-                columnWidth = {...getWidthStyle(isActionColumnWide ? variables.w80 : variables.w68), ...styles.alignItemsCenter};
+                columnWidth = {
+                    ...getWidthStyle(isActionColumnWide ? variables.w80 : variables.w68),
+                    ...styles.alignItemsCenter,
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.EXPORTED_TO:
-                columnWidth = {...getWidthStyle(variables.w72), ...styles.alignItemsCenter};
+                columnWidth = {
+                    ...getWidthStyle(variables.w72),
+                    ...styles.alignItemsCenter,
+                };
                 break;
             case CONST.SEARCH.TABLE_COLUMNS.ATTENDEES:
                 columnWidth = {...getWidthStyle(variables.w72)};
