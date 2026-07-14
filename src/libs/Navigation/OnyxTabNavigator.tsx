@@ -26,6 +26,7 @@ import type {EventArg, EventMapCore, NavigationProp, NavigationState, ParamListB
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {TabActions, useRoute} from '@react-navigation/native';
 import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
+import {Keyboard} from 'react-native';
 import {StyleSheet, View} from 'react-native';
 
 import type {RegisterTabSwitchGuard, TabSwitchGuard} from './TabSwitchGuardContext';
@@ -183,6 +184,8 @@ function OnyxTabNavigator<TTabName extends string = SelectedTabRequest>({
         }
         event.preventDefault();
         isDiscardModalOpenRef.current = true;
+        console.log('Hi');
+        Keyboard.dismiss();
         showConfirmModal({
             ...getDiscardChangesModalConfig(translate),
             shouldIgnoreBackHandlerDuringTransition: true,

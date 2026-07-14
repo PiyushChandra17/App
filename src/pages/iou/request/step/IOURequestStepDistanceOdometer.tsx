@@ -58,6 +58,7 @@ import type {OnyxEntry} from 'react-native-onyx';
 import {useIsFocused} from '@react-navigation/native';
 import lodashIsEmpty from 'lodash/isEmpty';
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {Keyboard} from 'react-native';
 import {View} from 'react-native';
 
 import type {WithWritableReportOrNotFoundProps} from './withWritableReportOrNotFound';
@@ -188,7 +189,15 @@ function IOURequestStepDistanceOdometer({
         initialEndImageRef,
         resetOdometerLocalState,
         hasInitializedRefs,
-    } = useOdometerReadingsState({currentTransaction, isEditing, selectedTab, isLoadingSelectedTab, hasVerifiedBlobs, odometerDraft, userHasUnsavedTypingRef});
+    } = useOdometerReadingsState({
+        currentTransaction,
+        isEditing,
+        selectedTab,
+        isLoadingSelectedTab,
+        hasVerifiedBlobs,
+        odometerDraft,
+        userHasUnsavedTypingRef,
+    });
 
     useEffect(() => {
         resetOdometerLocalStateRef.current = resetOdometerLocalState;
@@ -471,7 +480,14 @@ function IOURequestStepDistanceOdometer({
         }
 
         if (start > CONST.IOU.ODOMETER_MAX_VALUE || end > CONST.IOU.ODOMETER_MAX_VALUE) {
-            setFormError(translate('iou.error.odometerReadingTooLarge', numberFormat(CONST.IOU.ODOMETER_MAX_VALUE, {maximumFractionDigits: 1})));
+            setFormError(
+                translate(
+                    'iou.error.odometerReadingTooLarge',
+                    numberFormat(CONST.IOU.ODOMETER_MAX_VALUE, {
+                        maximumFractionDigits: 1,
+                    }),
+                ),
+            );
             return;
         }
 
@@ -511,6 +527,7 @@ function IOURequestStepDistanceOdometer({
         });
 
     const handleTabSwitchDiscard = () => {
+        Keyboard.dismiss();
         setMoneyRequestOdometerReading(transactionID, null, null, isTransactionDraft);
         removeMoneyRequestOdometerImage(transaction, CONST.IOU.ODOMETER_IMAGE_TYPE.START, isTransactionDraft, true);
         removeMoneyRequestOdometerImage(transaction, CONST.IOU.ODOMETER_IMAGE_TYPE.END, isTransactionDraft, true);
@@ -562,7 +579,9 @@ function IOURequestStepDistanceOdometer({
                 endImage: odometerEndImage,
             });
         } catch (error) {
-            Log.warn('Failed to persist odometer draft for "Save for later"', {error});
+            Log.warn('Failed to persist odometer draft for "Save for later"', {
+                error,
+            });
             shouldBypassDiscardConfirmationRef.current = false;
             setFormError(translate('iou.error.failedToSaveOdometerDraft'));
             return;
