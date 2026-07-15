@@ -28,6 +28,11 @@ function isValidExtension(image: FileObject): boolean {
     return CONST.AVATAR_ALLOWED_EXTENSIONS.some((extension) => extension === fileExtension.toLowerCase());
 }
 
+function isSvgFile(image: FileObject): boolean {
+    const {fileExtension} = splitExtensionFromFileName(image?.name ?? '');
+    return fileExtension.toLowerCase() === 'svg';
+}
+
 /**
  * Validates if an image file size is within allowed limits.
  *
@@ -38,6 +43,28 @@ function isValidSize(image: FileObject): boolean {
     return (image?.size ?? 0) < CONST.AVATAR_MAX_ATTACHMENT_SIZE;
 }
 
+async function isValidSvgResolution(image: FileObject): Promise<boolean> {
+    try {
+        const response = await fetch(image.uri ?? '');
+        const svgText = await response.text();
+        const widthMatch = svgText.match(/<svg[^>]*\swidth="(\d+(?:\.\d+)?)/i);
+        const heightMatch = svgText.match(/<svg[^>]*\sheight="(\d+(?:\.\d+)?)/i);
+
+        // No explicit pixel dimensions declared (e.g. only a viewBox) — vector
+        // art scales losslessly, so don't fail it on a resolution technicality.
+        if (!widthMatch || !heightMatch) {
+            return true;
+        }
+
+        const width = parseFloat(widthMatch[1]);
+        const height = parseFloat(heightMatch[1]);
+        return height >= CONST.AVATAR_MIN_HEIGHT_PX && width >= CONST.AVATAR_MIN_WIDTH_PX && height <= CONST.AVATAR_MAX_HEIGHT_PX && width <= CONST.AVATAR_MAX_WIDTH_PX;
+    } catch {
+        // If we can't read/parse it, don't block the upload on a resolution guess.
+        return true;
+    }
+}
+
 /**
  * Validates if an image resolution meets the avatar constraints.
  *
@@ -45,6 +72,9 @@ function isValidSize(image: FileObject): boolean {
  * @returns Promise resolving to true if resolution is within bounds
  */
 async function isValidResolution(image: FileObject): Promise<boolean> {
+    if (isSvgFile(image)) {
+        return isValidSvgResolution(image);
+    }
     try {
         const {height, width} = await getImageResolution(image);
         return height >= CONST.AVATAR_MIN_HEIGHT_PX && width >= CONST.AVATAR_MIN_WIDTH_PX && height <= CONST.AVATAR_MAX_HEIGHT_PX && width <= CONST.AVATAR_MAX_WIDTH_PX;
@@ -81,7 +111,9 @@ async function validateAvatarImage(image: FileObject): Promise<ValidationResult>
         return {
             isValid: false,
             errorKey: 'avatarWithImagePicker.sizeExceeded',
-            errorParams: {maxUploadSizeInMB: CONST.AVATAR_MAX_ATTACHMENT_SIZE / (1024 * 1024)},
+            errorParams: {
+                maxUploadSizeInMB: CONST.AVATAR_MAX_ATTACHMENT_SIZE / (1024 * 1024),
+            },
         };
     }
 
@@ -128,4 +160,4 @@ function getValidatedImageSource(source: AvatarSource | undefined, shouldResolve
     return undefined;
 }
 
-export {isValidExtension, isValidSize, isValidResolution, validateAvatarImage, getValidatedImageSource};
+export {isValidExtension, isValidSize, isSvgFile, isValidResolution, validateAvatarImage, getValidatedImageSource};
