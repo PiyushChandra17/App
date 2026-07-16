@@ -1,5 +1,6 @@
 import {useMemoizedLazyExpensifyIcons} from '@hooks/useLazyAsset';
 import useLocalize from '@hooks/useLocalize';
+import useOnyx from '@hooks/useOnyx';
 import useResponsiveLayout from '@hooks/useResponsiveLayout';
 import useStyleUtils from '@hooks/useStyleUtils';
 import useTheme from '@hooks/useTheme';
@@ -10,6 +11,7 @@ import {isReceiptError, isTranslationKeyError} from '@libs/ErrorUtils';
 import fileDownload from '@libs/fileDownload';
 
 import CONST from '@src/CONST';
+import ONYXKEYS from '@src/ONYXKEYS';
 import type {TranslationKeyError} from '@src/types/onyx/OnyxCommon';
 import type {ReceiptError} from '@src/types/onyx/Transaction';
 
@@ -56,6 +58,9 @@ function DotIndicatorMessage({messages = {}, style, type, textStyles, dismissErr
     const StyleUtils = useStyleUtils();
     const {translate} = useLocalize();
     const expensifyIcons = useMemoizedLazyExpensifyIcons(['DotIndicator']);
+
+    const [network] = useOnyx(ONYXKEYS.NETWORK);
+
     // eslint-disable-next-line rulesdir/prefer-shouldUseNarrowLayout-instead-of-isSmallScreenWidth
     const {shouldUseNarrowLayout, isSmallScreenWidth, isInNarrowPaneModal} = useResponsiveLayout();
 
@@ -73,6 +78,8 @@ function DotIndicatorMessage({messages = {}, style, type, textStyles, dismissErr
 
     const isErrorMessage = type === 'error';
     const receiptError = uniqueMessages.find(isReceiptError);
+
+    const isSimulateFailedNetworkRequests = !!network?.shouldFailAllRequests;
 
     const isTextSelectable = !canUseTouchScreen() || !shouldUseNarrowLayout;
 
@@ -135,10 +142,11 @@ function DotIndicatorMessage({messages = {}, style, type, textStyles, dismissErr
                     accessibilityRole={isErrorMessage ? CONST.ROLE.ALERT : undefined}
                     accessibilityLiveRegion={isErrorMessage ? 'assertive' : undefined}
                 >
-                    {translate('iou.error.receiptUploadFailedMessage')}
+                    {isSimulateFailedNetworkRequests ? translate('iou.error.networkRequestFailedMessage') : translate('iou.error.receiptUploadFailedMessage')}
                 </Text>
             </View>
         );
+
         const buttonsRow = (
             <View style={[styles.flexRow, styles.gap3]}>
                 <Button
@@ -160,7 +168,7 @@ function DotIndicatorMessage({messages = {}, style, type, textStyles, dismissErr
             return (
                 <View style={[styles.flexRow, styles.gap3, styles.alignItemsCenter, style]}>
                     {messageRow}
-                    {buttonsRow}
+                    {!isSimulateFailedNetworkRequests && buttonsRow}
                 </View>
             );
         }
