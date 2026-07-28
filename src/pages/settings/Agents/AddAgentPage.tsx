@@ -12,6 +12,7 @@ import useCurrentUserPersonalDetails from '@hooks/useCurrentUserPersonalDetails'
 import useIsInLandscapeMode from '@hooks/useIsInLandscapeMode';
 import {useMemoizedLazyExpensifyIcons} from '@hooks/useLazyAsset';
 import useLocalize from '@hooks/useLocalize';
+import useMarkdownStyle from '@hooks/useMarkdownStyle';
 import useOnyx from '@hooks/useOnyx';
 import useThemeStyles from '@hooks/useThemeStyles';
 import useWindowDimensions from '@hooks/useWindowDimensions';
@@ -34,6 +35,9 @@ import INPUT_IDS from '@src/types/form/AddAgentForm';
 import type {Errors} from '@src/types/onyx/OnyxCommon';
 import isLoadingOnyxValue from '@src/types/utils/isLoadingOnyxValue';
 
+import type {MarkdownStyle} from '@expensify/react-native-live-markdown';
+
+import {MarkdownTextInput, parseExpensiMark} from '@expensify/react-native-live-markdown';
 import React, {useCallback, useEffect, useRef} from 'react';
 import {View} from 'react-native';
 
@@ -43,6 +47,7 @@ function AddAgentPage({route}: AddAgentPageProps) {
     const policyID = route.params?.policyID;
     const {translate} = useLocalize();
     const styles = useThemeStyles();
+    const markdownStyle = useMarkdownStyle(true);
     const {windowWidth, windowHeight} = useWindowDimensions();
     const shouldUseScrollableLayout = useIsInLandscapeMode() || (isMobile() && windowWidth > windowHeight);
     const {displayName} = useCurrentUserPersonalDetails();
@@ -160,12 +165,14 @@ function AddAgentPage({route}: AddAgentPageProps) {
                     />
                     <View style={[styles.flex1, shouldUseScrollableLayout && styles.minHeight42]}>
                         <InputWrapper
-                            InputComponent={TextInput}
+                            InputComponent={MarkdownTextInput}
                             inputID={INPUT_IDS.PROMPT}
                             label={translate('addAgentPage.instructions')}
                             accessibilityLabel={translate('addAgentPage.instructions')}
                             role={CONST.ROLE.PRESENTATION}
                             defaultValue={defaultPrompt}
+                            parser={parseExpensiMark}
+                            markdownStyle={markdownStyle}
                             multiline
                             containerStyles={[styles.flex1]}
                             touchableInputWrapperStyle={[styles.flex1]}

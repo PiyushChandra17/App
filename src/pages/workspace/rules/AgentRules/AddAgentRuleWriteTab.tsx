@@ -9,6 +9,7 @@ import TextInput from '@components/TextInput';
 
 import useIsInLandscapeMode from '@hooks/useIsInLandscapeMode';
 import useLocalize from '@hooks/useLocalize';
+import useMarkdownStyle from '@hooks/useMarkdownStyle';
 import usePermissions from '@hooks/usePermissions';
 import useThemeStyles from '@hooks/useThemeStyles';
 
@@ -16,8 +17,10 @@ import CONST from '@src/CONST';
 import ONYXKEYS from '@src/ONYXKEYS';
 import INPUT_IDS from '@src/types/form/AddAgentRuleForm';
 
+import type {MarkdownStyle} from '@expensify/react-native-live-markdown';
 import type {StyleProp, TextInputKeyPressEvent, ViewStyle} from 'react-native';
 
+import {MarkdownTextInput, parseExpensiMark} from '@expensify/react-native-live-markdown';
 import React, {useRef} from 'react';
 import {View} from 'react-native';
 
@@ -30,6 +33,7 @@ type AddAgentRuleWriteTabProps = {
 
 function AddAgentRuleWriteTab({onSave}: AddAgentRuleWriteTabProps) {
     const {translate} = useLocalize();
+    const markdownStyle = useMarkdownStyle(true);
     const styles = useThemeStyles();
     const shouldUseScrollableLayout = useIsInLandscapeMode();
     const {isBetaEnabled} = usePermissions();
@@ -84,7 +88,7 @@ function AddAgentRuleWriteTab({onSave}: AddAgentRuleWriteTabProps) {
                 )}
                 <View style={inputWrapperStyles}>
                     <InputWrapper
-                        InputComponent={TextInput}
+                        InputComponent={MarkdownTextInput}
                         inputID={INPUT_IDS.PROMPT}
                         label={describeRuleLabel}
                         accessibilityLabel={describeRuleLabel}
@@ -92,6 +96,8 @@ function AddAgentRuleWriteTab({onSave}: AddAgentRuleWriteTabProps) {
                         onKeyPress={submitFormOnModEnter}
                         multiline
                         shouldSaveDraft
+                        parser={parseExpensiMark}
+                        markdownStyle={markdownStyle}
                         shouldLabelStayOnSingleLine
                         containerStyles={[styles.flex1]}
                         touchableInputWrapperStyle={[styles.flex1]}

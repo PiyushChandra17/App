@@ -3,11 +3,11 @@ import InputWrapper from '@components/Form/InputWrapper';
 import type {FormInputErrors, FormOnyxValues} from '@components/Form/types';
 import HeaderWithBackButton from '@components/HeaderWithBackButton';
 import ScreenWrapper from '@components/ScreenWrapper';
-import TextInput from '@components/TextInput';
 
 import useIsInLandscapeMode from '@hooks/useIsInLandscapeMode';
 import useKeyboardShortcut from '@hooks/useKeyboardShortcut';
 import useLocalize from '@hooks/useLocalize';
+import useMarkdownStyle from '@hooks/useMarkdownStyle';
 import useOnyx from '@hooks/useOnyx';
 import useThemeStyles from '@hooks/useThemeStyles';
 
@@ -21,6 +21,9 @@ import ONYXKEYS from '@src/ONYXKEYS';
 import type SCREENS from '@src/SCREENS';
 import INPUT_IDS from '@src/types/form/EditAgentPromptForm';
 
+import type {MarkdownStyle} from '@expensify/react-native-live-markdown';
+
+import {MarkdownTextInput, parseExpensiMark} from '@expensify/react-native-live-markdown';
 import {Str} from 'expensify-common';
 import React from 'react';
 import {Platform, View} from 'react-native';
@@ -29,6 +32,7 @@ type EditPromptPageProps = PlatformStackScreenProps<SettingsNavigatorParamList, 
 
 function EditPromptPage({route}: EditPromptPageProps) {
     const {translate} = useLocalize();
+    const markdownStyle = useMarkdownStyle(true);
     const styles = useThemeStyles();
     const shouldUseScrollableLayout = useIsInLandscapeMode();
     const accountID = route.params.accountID;
@@ -93,13 +97,15 @@ function EditPromptPage({route}: EditPromptPageProps) {
             >
                 <View style={[styles.flex1, shouldUseScrollableLayout && styles.minHeight42]}>
                     <InputWrapper
-                        InputComponent={TextInput}
+                        InputComponent={MarkdownTextInput}
                         inputID={INPUT_IDS.PROMPT}
                         label={translate('editAgentPage.instructions')}
                         accessibilityLabel={translate('editAgentPage.instructions')}
                         role={CONST.ROLE.PRESENTATION}
                         defaultValue={Str.htmlDecode(agentPrompt?.prompt ?? '')}
                         multiline
+                        parser={parseExpensiMark}
+                        markdownStyle={markdownStyle}
                         containerStyles={[styles.flex1]}
                         touchableInputWrapperStyle={[styles.flex1]}
                         textInputContainerStyles={[styles.flex1]}
