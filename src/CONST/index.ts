@@ -9426,6 +9426,12 @@ const CONST = {
                 url: 'https://www.businesswire.com/news/home/20260713695836/en/Expensify-Launches-Consolidated-Travel-Billing-to-Simplify-How-Companies-Pay-for-Business-Travel',
                 publishedDate: '2026-07-13',
             },
+            {
+                title: 'Control card spend before it happens',
+                subtitle: 'Newsletter',
+                url: 'https://use.expensify.com/blog/expensify-card-spend-rules',
+                publishedDate: '2026-08-17',
+            },
         ],
     },
 
