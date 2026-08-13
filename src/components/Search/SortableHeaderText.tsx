@@ -59,14 +59,7 @@ export default function SortableHeaderText({
                             width={16}
                         />
                     )}
-                    {!!text && (
-                        <Text
-                            numberOfLines={1}
-                            style={[styles.textMicroSupporting, textStyle]}
-                        >
-                            {text}
-                        </Text>
-                    )}
+                    {!!text && <Text style={[styles.textMicroSupporting, textStyle]}>{text}</Text>}
                 </View>
             </View>
         );
@@ -97,14 +90,7 @@ export default function SortableHeaderText({
                             width={16}
                         />
                     )}
-                    {!!text && (
-                        <Text
-                            numberOfLines={1}
-                            style={[styles.textMicroSupporting, activeColumnStyle, textStyle]}
-                        >
-                            {text}
-                        </Text>
-                    )}
+                    {!!text && <Text style={[styles.textMicroSupporting, activeColumnStyle, textStyle]}>{text}</Text>}
                     {displayIcon && (
                         <Icon
                             src={sortArrowIcon}

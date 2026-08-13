@@ -166,6 +166,8 @@ const translations = {
         here: 'here',
         avatar: 'Avatar',
         date: 'Date',
+        createdDate: 'Created Date',
+        created: 'Created',
         dob: 'Date of birth',
         currentYear: 'Current year',
         currentMonth: 'Current month',
@@ -669,7 +671,10 @@ const translations = {
             troubleshootBiometricsStatus: ({status}: {status?: string}) => `Biometrics (${status})`,
             statusNeverRegistered: 'Never registered',
             statusNotRegistered: 'Not registered',
-            statusRegisteredOtherDevice: () => ({one: 'Another device registered', other: 'Other devices registered'}),
+            statusRegisteredOtherDevice: () => ({
+                one: 'Another device registered',
+                other: 'Other devices registered',
+            }),
             statusRegisteredThisDevice: 'Registered',
             yourAttemptWasUnsuccessful: 'Your authentication attempt was unsuccessful.',
             youCouldNotBeAuthenticated: 'You couldn’t be authenticated',
@@ -7189,12 +7194,18 @@ const translations = {
                 `Are you sure you would like to change the approval mode for this workspace? Learn more about the different ${providerName}-enabled workflow modes in our <a href="${helpSiteURL}">help site</a>.`,
             approvalModeWarningConfirm: 'Change approval mode',
             approvalModes: {
-                basic: {label: 'Basic approval', description: 'All users submit to a single person for processing and approval.'},
+                basic: {
+                    label: 'Basic approval',
+                    description: 'All users submit to a single person for processing and approval.',
+                },
                 manager: {
                     label: 'Manager approval',
                     description: (providerName: string) => `Employees submit reports to their direct manager configured in ${providerName}.`,
                 },
-                custom: {label: 'Custom approval', description: "I'll manually setup approval workflows in Expensify."},
+                custom: {
+                    label: 'Custom approval',
+                    description: "I'll manually setup approval workflows in Expensify.",
+                },
             },
             syncStageName: (stage: PolicyConnectionSyncStage) => {
                 switch (stage) {
@@ -9965,7 +9976,11 @@ const translations = {
         markAsCashToIgnore: 'Mark as cash to ignore and request payment.',
         smartscanFailed: ({canEdit = true, missingFields = []}: {canEdit?: boolean; missingFields?: string[]}) => {
             if (missingFields.length > 0) {
-                const fieldNames: Record<string, string> = {merchant: 'merchant', date: 'date', amount: 'amount'};
+                const fieldNames: Record<string, string> = {
+                    merchant: 'merchant',
+                    date: 'date',
+                    amount: 'amount',
+                };
                 const translated = missingFields.map((f) => fieldNames[f] ?? f);
                 let fieldList = '';
                 if (translated.length === 1) {
