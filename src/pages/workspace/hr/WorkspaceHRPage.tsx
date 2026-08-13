@@ -142,6 +142,7 @@ function WorkspaceHRPage({
                 <HeaderWithBackButton
                     icon={illustrations.NewUser}
                     title={translate('workspace.hr.title')}
+                    shouldDisplayHelpButton
                     shouldShowBackButton={shouldUseNarrowLayout}
                     shouldUseHeadlineHeader
                     onBackButtonPress={() => Navigation.goBack()}
