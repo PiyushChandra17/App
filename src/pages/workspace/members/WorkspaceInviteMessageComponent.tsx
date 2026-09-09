@@ -117,7 +117,13 @@ function WorkspaceInviteMessageComponent({
     const approverDetails = usePersonalDetailByLogin(workspaceInviteApproverDraft);
 
     const isControl = isControlPolicy(policy);
-    const shouldShowApproverRow = isControl && policy?.approvalMode === CONST.POLICY.APPROVAL_MODE.ADVANCED && policy?.areWorkflowsEnabled;
+
+    const isValidApproverMode =
+        policy?.approvalMode === CONST.POLICY.APPROVAL_MODE.ADVANCED ||
+        policy?.approvalMode === CONST.POLICY.APPROVAL_MODE.DYNAMICEXTERNAL ||
+        policy?.approvalMode === CONST.POLICY.APPROVAL_MODE.BASIC;
+
+    const shouldShowApproverRow = isControl && isValidApproverMode && policy?.areWorkflowsEnabled;
 
     const isApproverValid = !!workspaceInviteApproverDraft && workspaceInviteApproverDraft in (policy?.employeeList ?? {});
     const validatedApprover = isApproverValid ? workspaceInviteApproverDraft : undefined;
@@ -131,7 +137,13 @@ function WorkspaceInviteMessageComponent({
     const personalDetailsOfInvitedEmails = getPersonalDetailsForAccountIDs(Object.values(invitedEmailsToAccountIDsDraft ?? {}), allPersonalDetails ?? {});
     const memberNames = Object.values(personalDetailsOfInvitedEmails)
         .map((personalDetail) => {
-            const displayName = temporaryGetDisplayNameOrDefault({passedPersonalDetails: personalDetail, defaultValue: '', shouldFallbackToHidden: false, translate, formatPhoneNumber});
+            const displayName = temporaryGetDisplayNameOrDefault({
+                passedPersonalDetails: personalDetail,
+                defaultValue: '',
+                shouldFallbackToHidden: false,
+                translate,
+                formatPhoneNumber,
+            });
             if (displayName) {
                 return displayName;
             }
@@ -262,7 +274,10 @@ function WorkspaceInviteMessageComponent({
             policyID={policyID}
             policyFeature={CONST.POLICY.POLICY_FEATURE.MEMBERS}
             policyFeatureAccess={CONST.POLICY.POLICY_FEATURE_ACCESS.WRITE}
-            fullPageNotFoundViewProps={{subtitleKey: isEmptyObject(policy) ? undefined : 'workspace.common.notAuthorized', onLinkPress: goBackFromInvalidPolicy}}
+            fullPageNotFoundViewProps={{
+                subtitleKey: isEmptyObject(policy) ? undefined : 'workspace.common.notAuthorized',
+                onLinkPress: goBackFromInvalidPolicy,
+            }}
         >
             <ScreenWrapper
                 enableEdgeToEdgeBottomSafeAreaPadding
