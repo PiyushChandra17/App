@@ -78,7 +78,9 @@ function TransactionReceiptModalContent({navigation, route}: AttachmentModalScre
     const [betas] = useOnyx(ONYXKEYS.BETAS);
     const [conciergeReportID] = useOnyx(ONYXKEYS.CONCIERGE_REPORT_ID);
     const [conciergeChat] = useOnyx(`${ONYXKEYS.COLLECTION.REPORT}${conciergeReportID}`);
-    const [guidedSetupAndTourStatus] = useOnyx(ONYXKEYS.NVP_ONBOARDING, {selector: guidedSetupAndTourStatusSelector});
+    const [guidedSetupAndTourStatus] = useOnyx(ONYXKEYS.NVP_ONBOARDING, {
+        selector: guidedSetupAndTourStatusSelector,
+    });
     const [rules] = useOnyx(ONYXKEYS.COLLECTION.RULE);
     const policy = usePolicy(report?.policyID);
     const platform = getPlatform();
@@ -164,8 +166,19 @@ function TransactionReceiptModalContent({navigation, route}: AttachmentModalScre
     const [sourceUri, setSourceUri] = useState<ReceiptSource>('');
 
     const parentReportAction = getReportAction(report?.parentReportID, report?.parentReportActionID);
-    const canEditReceipt = canEditFieldOfMoneyRequest({reportAction: parentReportAction, fieldToEdit: CONST.EDIT_REQUEST_FIELD.RECEIPT, transaction, rules});
-    const canDeleteReceipt = canEditFieldOfMoneyRequest({reportAction: parentReportAction, fieldToEdit: CONST.EDIT_REQUEST_FIELD.RECEIPT, isDeleteAction: true, transaction, rules});
+    const canEditReceipt = canEditFieldOfMoneyRequest({
+        reportAction: parentReportAction,
+        fieldToEdit: CONST.EDIT_REQUEST_FIELD.RECEIPT,
+        transaction,
+        rules,
+    });
+    const canDeleteReceipt = canEditFieldOfMoneyRequest({
+        reportAction: parentReportAction,
+        fieldToEdit: CONST.EDIT_REQUEST_FIELD.RECEIPT,
+        isDeleteAction: true,
+        transaction,
+        rules,
+    });
 
     const receiptFilename = transaction?.receipt?.filename;
     const isStitchedOdometerReceipt = isOdometerDistanceRequest(transaction) && !imageType;
@@ -474,7 +487,7 @@ function TransactionReceiptModalContent({navigation, route}: AttachmentModalScre
                 !isReceiptBeingScanned(transaction) &&
                 !hasMissingSmartscanFields(transaction, transactionReport);
             const isDraftOdometer = isOdometerImage && isDraftTransaction;
-            if (isDeletableReceipt || isDraftOdometer) {
+            if (isDeletableReceipt || isOffline || isDraftOdometer) {
                 menuItems.push({
                     icon: expensifyIcons.Trashcan,
                     text: isOdometerImage ? translate('distance.odometer.deleteOdometerPhoto') : translate('receipt.deleteReceipt'),
