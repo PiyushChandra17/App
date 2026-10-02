@@ -58,11 +58,10 @@ function getActiveTabRoute(rootState: NavigationState | undefined) {
 }
 
 function useDebugTabViewHeight(): number {
-    const {shouldUseNarrowLayout} = useResponsiveLayout();
     const [isDebugModeEnabled] = useOnyx(ONYXKEYS.IS_DEBUG_MODE_ENABLED);
     const {status} = useIndicatorStatus();
 
-    if (shouldUseNarrowLayout || !isDebugModeEnabled || !getSettingsMessage(status)) {
+    if (!isDebugModeEnabled || !getSettingsMessage(status)) {
         return 0;
     }
 
@@ -123,7 +122,9 @@ function getSettingsRoute(status: IndicatorStatus | undefined, reimbursementAcco
         case CONST.INDICATOR_STATUS.HAS_POLICY_ERRORS:
             return ROUTES.WORKSPACE_INITIAL.getRoute(indicatorPolicyID);
         case CONST.INDICATOR_STATUS.HAS_REIMBURSEMENT_ACCOUNT_ERRORS:
-            return ROUTES.BANK_ACCOUNT_WITH_STEP_TO_OPEN.getRoute({policyID: reimbursementAccount?.achData?.policyID});
+            return ROUTES.BANK_ACCOUNT_WITH_STEP_TO_OPEN.getRoute({
+                policyID: reimbursementAccount?.achData?.policyID,
+            });
         case CONST.INDICATOR_STATUS.HAS_SUBSCRIPTION_ERRORS:
             return ROUTES.SETTINGS_SUBSCRIPTION.route;
         case CONST.INDICATOR_STATUS.HAS_SUBSCRIPTION_INFO:
@@ -234,15 +235,29 @@ function DebugTabView({selectedTab}: Props) {
         return null;
     }
 
-    let positionStyle: {bottom?: number; top?: number; left: number; right?: number; width?: number};
+    let positionStyle: {
+        bottom?: number;
+        top?: number;
+        left: number;
+        right?: number;
+        width?: number;
+    };
     const verticalAnchor = selectedTab === NAVIGATION_TABS.SETTINGS && !shouldUseNarrowLayout ? {top: 0} : {bottom: 0};
     if (shouldUseNarrowLayout) {
         positionStyle = {bottom: 0, left: 0, right: 0};
     } else if (isOnFullWidthTabRoot) {
-        positionStyle = {...verticalAnchor, left: variables.navigationTabBarSize, width: windowWidth - variables.navigationTabBarSize - sidePanelOffset};
+        positionStyle = {
+            ...verticalAnchor,
+            left: variables.navigationTabBarSize,
+            width: windowWidth - variables.navigationTabBarSize - sidePanelOffset,
+        };
     } else {
         const lhnWidth = selectedTab === NAVIGATION_TABS.INBOX ? variables.inboxSideBarWidth : variables.sideBarWithLHBWidth;
-        positionStyle = {...verticalAnchor, left: variables.navigationTabBarSize, width: lhnWidth - variables.cropBorderWidth};
+        positionStyle = {
+            ...verticalAnchor,
+            left: variables.navigationTabBarSize,
+            width: lhnWidth - variables.cropBorderWidth,
+        };
     }
 
     // pAbsolute is only applied on wide layouts. On narrow layout the bar is placed by its parent

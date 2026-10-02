@@ -1,6 +1,7 @@
 import AccountSwitcher from '@components/AccountSwitcher';
 import AccountSwitcherButton from '@components/AccountSwitcherButton';
 import AccountSwitcherSkeletonView from '@components/AccountSwitcherSkeletonView';
+import {useDebugTabViewHeight} from '@components/Navigation/DebugTabView';
 import NAVIGATION_TABS from '@components/Navigation/NavigationTabBar/NAVIGATION_TABS';
 import TabBarBottomContent from '@components/Navigation/TabBarBottomContent';
 import TopBarWithLoadingBar from '@components/Navigation/TopBarWithLoadingBar';
@@ -47,7 +48,9 @@ type InitialSettingsPageProps = WithCurrentUserPersonalDetailsProps;
 
 function InitialSettingsPage({currentUserPersonalDetails}: InitialSettingsPageProps) {
     const {shouldUseNarrowLayout, isInLandscapeMode} = useResponsiveLayout();
-    const [canSwitchAccounts = false] = useOnyx(ONYXKEYS.ACCOUNT, {selector: canSwitchAccountsSelector});
+    const [canSwitchAccounts = false] = useOnyx(ONYXKEYS.ACCOUNT, {
+        selector: canSwitchAccountsSelector,
+    });
     const tabBarContent = <TabBarBottomContent selectedTab={NAVIGATION_TABS.SETTINGS} />;
     const styles = useThemeStyles();
     const {isExecuting, singleExecution} = useSingleExecution();
@@ -132,6 +135,7 @@ function InitialSettingsPage({currentUserPersonalDetails}: InitialSettingsPagePr
     const route = useRoute();
     const scrollViewRef = useRef<ComponentRef<typeof RNScrollView>>(null);
     const triggerScrollEvent = useScrollEventEmitter();
+    const debugTabViewHeight = useDebugTabViewHeight(true);
 
     const onScroll: NonNullable<ScrollViewProps['onScroll']> = (e) => {
         // If the layout measurement is 0, it means the flash list is not displayed but the onScroll may be triggered with offset value 0.
@@ -175,7 +179,7 @@ function InitialSettingsPage({currentUserPersonalDetails}: InitialSettingsPagePr
                 ref={scrollViewRef}
                 onScroll={onScroll}
                 scrollEventThrottle={CONST.TIMING.MIN_SMOOTH_SCROLL_EVENT_THROTTLE}
-                contentContainerStyle={[styles.w100]}
+                contentContainerStyle={[styles.w100, {paddingBottom: debugTabViewHeight}]}
                 showsVerticalScrollIndicator={false}
             >
                 {headerContent}
